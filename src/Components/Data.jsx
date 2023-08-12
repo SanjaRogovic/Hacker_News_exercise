@@ -1,65 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import * as ReactBootstrap from "react-bootstrap"
+import * as ReactBootstrap from "react-bootstrap";
+import Stack from 'react-bootstrap/Stack';
+
 
 const Data = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    try{
-        const displayData = await axios.get(`http://hn.algolia.com/api/v1/search?query=${inputValue}`);
-        const response = await displayData.data.hits;
-        setData(response);
-        setLoading(true)
-        console.log(response)
-    }
-    
-    catch(error) {
-        console.log(error, "ERROR");
+    fetchData();
+  };
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const response = await axios.get(
+        `http://hn.algolia.com/api/v1/search?query=${inputValue}`
+      );
+      const data = response.data.hits.filter(
+        (data) => data.url != null
+      );
+    if (data.length === 0) {
+        setError("Search unsuccessful. No data found.");
+        setData([]);
+    } else {
+        setData(data);
+      }
+    } catch (error) {
+      setError("The request has failed");
+      setData([]);
+    } finally {
+      setLoading(false);
     }
   };
 
 
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = () => {
-//     setLoading(true)
-//     fetch(`http://hn.algolia.com/api/v1/search?query=${inputValue}`)
-//       .then((response) => {
-//         if (!response.ok) {
-//           throw new Error(`The request has failed with status ${response.status}`);
-//         }
-
-//         return response.json();
-//       }) 
-
-//       .then((data) => {
-//         setData(data.hits);
-//         // console.log(data.hits)
-//       })
-
-//       .catch((error) => {
-//         console.log(error, "ERROR");
-//       })
-
-//       .finally(() => {
-//         console.log("FETCH COMPLETED");
-//       });
-//   };
-
-// console.log(data)
   return (
     <div>
       <h2>Hacker News</h2>
@@ -69,15 +53,21 @@ const Data = () => {
           placeholder="Search..."
           value={inputValue}
           onChange={handleChange}
-        />   
+          required
+        />
         <button type="submit">Search</button>
       </form>
-      {data.length ? data.map((response) => (
-        <div key={response.created_at}>
-          <h3>{response.title}</h3>
-          <p>{response.url}</p>
-        </div>
-      )): <div>{loading ? setData : (<ReactBootstrap.Spinner animation="border" variant="dark" />)}</div>}
+        {loading && <ReactBootstrap.Spinner animation="border" variant="secondary" />}
+        {error && <div>{error}</div>}  
+        {(data.length > 0) && (data.map((data) => (
+        <ul>
+            <li key={data.objectID}>
+                <a href="{data.url}" target="-blank" rel="noopener noreferrer">{data.title} </a>
+            </li>
+        </ul>      
+         
+        )))
+        }    
     </div>
   );
 };

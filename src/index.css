@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: rgba(51, 46, 46, 0.87);
+  background-color: #474646;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,13 +14,44 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
+ul li a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
-a:hover {
+
+ul li a:hover {
   color: #535bf2;
+}
+
+div h2 {
+  font-size: 3em;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+  color: #23135e;
+  line-height: 2.2;
+}
+
+form input {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #276194;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin: 1%;
+  outline: none;
+}
+
+form input:hover {
+  border-color: #1e3fe6;
+}
+
+form input:focus {
+  border-color: #1e3fe6;
 }
 
 body {
@@ -31,39 +62,61 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
+form button {
+  border-radius: 10px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.6em 1em;
+  margin-left: 0.8em;;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #276194;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.3s;
+  display: inline-block;
 }
-button:hover {
+
+form button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+form button:focus,
+form button:focus-visible {
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+div ul li {
+  list-style: none;
+  text-decoration: none;
+  color: rgba(210, 88, 88, 0.87);
+  text-align: left;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  padding: 0.3em 0.8em;
+  font-size: 1em;
+  font-weight: 150;
+  font-family: inherit;
+  background-color: #accae4;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin: 1%;
+}
+
+div ul li:hover {
+  border-color: #9ec7eb;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #363434;
   }
   a:hover {
-    color: #747bff;
+    color: #202ae9;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #202c5c;
   }
 }
+
+
+
