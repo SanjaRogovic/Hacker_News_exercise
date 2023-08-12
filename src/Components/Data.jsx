@@ -1,19 +1,15 @@
-import {useState, useEffect} from "react";
+import {useState} from "react";
 
-const FetchData = () => {
+const Data = () => {
 
     const [inputValue, setInputValue] = useState("")
-    const [posts, setposts] = useState([])
-    const [error, setError] = useState(null)
 
     const handleSubmit = (e) => {
         e.prevent.default()
     }
 
-    const handleChange = () => {
-        setInputValue({
-            ...inputValue, [e.target.value]: e.target.value
-        })
+    const handleChange = (e) => {
+        setInputValue(e.target.value)
     }
 
 
@@ -37,4 +33,4 @@ const FetchData = () => {
     )
 }
 
-export default FetchData;
+export default Data;

@@ -1,6 +1,6 @@
 import './App.css'
 import {useState, useEffect} from "react"
-import FetchData from "./Components/FetchData"
+import Data from "./Components/Data"
 
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
   return (
     <>
       <div>
-        <FetchData/>
+        <Data/>
        </div>
     </>
   )
