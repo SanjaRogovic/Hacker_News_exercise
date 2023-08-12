@@ -1,28 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import * as ReactBootstrap from "react-bootstrap"
 
 const Data = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false)
 
   
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
 
 
   const handleSubmit = async (e) => {
-    e.prevent.default();
-
+    e.preventDefault();
+    
     try{
-        const displayData = await axios(`http://hn.algolia.com/api/v1/search?query=${inputValue}`);
-        if(!displayData) throw new Error(`The request has failed with status ${displayData.status}`);
+        const displayData = await axios.get(`http://hn.algolia.com/api/v1/search?query=${inputValue}`);
         const response = await displayData.data.hits;
-        setData ([response]);
+        setData(response);
+        setLoading(true)
+        console.log(response)
     }
     
     catch(error) {
@@ -31,7 +30,12 @@ const Data = () => {
   };
 
 
+//   useEffect(() => {
+//     fetchData();
+//   }, []);
+
 //   const fetchData = () => {
+//     setLoading(true)
 //     fetch(`http://hn.algolia.com/api/v1/search?query=${inputValue}`)
 //       .then((response) => {
 //         if (!response.ok) {
@@ -55,6 +59,7 @@ const Data = () => {
 //       });
 //   };
 
+// console.log(data)
   return (
     <div>
       <h2>Hacker News</h2>
@@ -67,12 +72,12 @@ const Data = () => {
         />   
         <button type="submit">Search</button>
       </form>
-      {data.length ? (
+      {data.length ? data.map((response) => (
         <div key={response.created_at}>
           <h3>{response.title}</h3>
           <p>{response.url}</p>
         </div>
-      ): <p>Error loading data</p>}
+      )): <div>{loading ? setData : (<ReactBootstrap.Spinner animation="border" variant="dark" />)}</div>}
     </div>
   );
 };
