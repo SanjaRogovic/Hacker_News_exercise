@@ -1,34 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import Level1 from "./Components/Level1"
+import {useState, useEffect} from "react"
+import FetchData from "./Components/FetchData"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+
+  const fetchData = () => {
+    fetch("http://hn.algolia.com/api/v1/items/:id")
+    .then ((response) => {
+      if(!response.ok) {
+        throw newError (`The fetch has failed with status ${response.status}`)
+      }
+
+      return response.json()
+    })
+
+    .then((data) => {
+      setData(data)
+    })
+
+    .catch((error) => {
+      console.log(error, "error")
+    })
+
+    .finally(() => {
+      console.log("fetch completed")
+    })
+
+  }
+  
+  
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+        <FetchData/>
+       </div>
     </>
   )
 }
