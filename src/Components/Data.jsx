@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import * as ReactBootstrap from "react-bootstrap";
-import Stack from 'react-bootstrap/Stack';
+
 
 
 const Data = () => {
